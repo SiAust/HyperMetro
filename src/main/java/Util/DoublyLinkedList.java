@@ -99,33 +99,33 @@ public class DoublyLinkedList<E> {
         size--;
     }
 
-    @Override
-    public String toString() {
-        Node<E> temp = head;
-        StringBuilder result = new StringBuilder();
-
-//        result.append("depot - ");
-        do {
-            for (int i = 0; i < 3;i++) {
-                result.append(temp.value);
-                if (i == 2) {
-                    result.append("\n");
-                } else {
-                    result.append(" - ");
-                }
-                temp = temp.next;
-            }
-            temp = temp == null ? null : temp.prev.prev;
-        }  while (temp != null);
-//        result.append("depot");
-        return result.toString();
-    }
+//    @Override
+//    public String toString() {
+//        Node<E> temp = head;
+//        StringBuilder result = new StringBuilder();
+//
+////        result.append("depot - ");
+//        do {
+//            for (int i = 0; i < 3;i++) {
+//                result.append(temp.value);
+//                if (i == 2) {
+//                    result.append("\n");
+//                } else {
+//                    result.append(" - ");
+//                }
+//                temp = temp.next;
+//            }
+//            temp = temp == null ? null : temp.prev.prev;
+//        }  while (temp != null);
+////        result.append("depot");
+//        return result.toString();
+//    }
 
 
     static class Node<E> {
-        private final E value;
-        private Node<E> prev;
-        private Node<E> next;
+         final E value;
+         Node<E> prev;
+         Node<E> next;
 
         Node(E value, Node<E> next, Node<E> prev) {
             this.value = value;
