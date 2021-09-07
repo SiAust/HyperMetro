@@ -16,12 +16,24 @@ public class DoublyLinkedList<E> {
         return head;
     }
 
+    void setHead(Node<E> head) {
+        this.head = head;
+    }
+
     public Node<E> getTail() {
         return tail;
     }
 
+    void setTail(Node<E> tail) {
+        this.tail = tail;
+    }
+
     public int getSize() {
         return size;
+    }
+
+    void setSize(int size) {
+        this.size = size;
     }
 
     public boolean isEmpty() {

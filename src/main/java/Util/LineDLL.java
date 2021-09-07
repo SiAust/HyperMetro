@@ -8,10 +8,12 @@ import java.util.List;
 public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
 
     List<E> stations;
+    String lineName;
 
-    public LineDLL(List<E> stations) {
+    public LineDLL(List<E> stations, String lineName) {
         super();
         this.stations = stations;
+        this.lineName = lineName;
         createLineDLL();
     }
 
@@ -22,6 +24,26 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
             super.addLast(station);
         }
 //        System.out.println(this);
+    }
+
+    public String getLineName() {
+        return lineName;
+    }
+
+    /**
+     * Adds the element to the end of the line, before the depot
+     * */
+    @Override
+    public void addLast(E elem) {
+        Node<E> temp = new Node<>(elem, super.getTail(), super.getTail().prev);
+        if (super.getSize() == 0) {
+            super.setHead(temp);
+            super.setTail(temp);
+        } else {
+            super.getTail().prev.next = temp;
+            super.getTail().prev = temp;
+        }
+        super.setSize(super.getSize() + 1);
     }
 
 

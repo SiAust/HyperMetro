@@ -55,8 +55,9 @@ public class StringUtil {
         * is the station */
         String[] strings = str.strip().split(" ", 2);
 
-        /* Remove the quotes */
-        if (strings[1].startsWith("\"") && strings[1].endsWith("\"")) {
+        /* Remove the quotes
+        * If length < 1, only one argument, i.e "/output Hammersmith-and-city" */
+        if (strings.length > 1 && strings[1].startsWith("\"") && strings[1].endsWith("\"")) {
             strings[1] = strings[1].substring(1, strings[1].length() - 1);
         }
 

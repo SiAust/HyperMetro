@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -23,15 +24,19 @@ public class Main {
             Metro metro = JSONUtil.importMetroFromJSON("src/test/" + args[0]);
 
 //            JSONUtil.prettyPrintClasses("src/test/" + args[0]);
+            /* Holds the lines as DLL objects */
+            List<LineDLL<Station>> stationDLLList = new ArrayList<>();
 
-            List<DoublyLinkedList<Station>> stationDLLList = new ArrayList<>();
             Station depot = new Station("depot");
             for (Line line : metro.getLines()) {
                 List<Station> stations = line.getStations();
+                /* Depot must begin and end the line */
                 stations.add(0, depot);
                 stations.add(stations.size(), depot);
-                DoublyLinkedList<Station> stationDoublyLinkedList = new LineDLL<>(line.getStations());
+
+                LineDLL<Station> stationDoublyLinkedList = new LineDLL<>(stations, line.getName());
                 stationDLLList.add(stationDoublyLinkedList);
+                System.out.println(stationDoublyLinkedList.getLineName());
             }
 
             for (DoublyLinkedList<Station> dll : stationDLLList) {
@@ -52,11 +57,20 @@ public class Main {
                         // append
                         System.out.println("append");
                         commandArgs = StringUtil.extractArguments(0, input);
-
+                        String[] finalCommandArgs = commandArgs;
+                        stationDLLList.stream()
+                                .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
+                                .findFirst().get().addLast(new Station(finalCommandArgs[1]));
                         break;
                     case 1:
                         // output
                         System.out.println("output");
+                        String[] finalCmmArgs = StringUtil.extractArguments(1, input);
+                        System.out.println(
+                                stationDLLList.stream()
+                                        .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCmmArgs[0]))
+                                        .findFirst().get()
+                        );
                         break;
                     case 2:
                         // add-head
