@@ -44,20 +44,19 @@ public class Main {
             }
 
 
-
             Scanner scanner = new Scanner(System.in);
             String input;
             int state;
-            String[] commandArgs = null;
+
             do {
                 input = scanner.nextLine();
                 state = StringUtil.parseInputCommand(input);
+                String[] finalCommandArgs;
                 switch (state) {
                     case 0:
                         // append
                         System.out.println("append");
-                        commandArgs = StringUtil.extractArguments(0, input);
-                        String[] finalCommandArgs = commandArgs;
+                        finalCommandArgs = StringUtil.extractArguments(0, input);
                         stationDLLList.stream()
                                 .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
                                 .findFirst().get().addLast(new Station(finalCommandArgs[1]));
@@ -65,16 +64,20 @@ public class Main {
                     case 1:
                         // output
                         System.out.println("output");
-                        String[] finalCmmArgs = StringUtil.extractArguments(1, input);
+                        finalCommandArgs = StringUtil.extractArguments(1, input);
                         System.out.println(
                                 stationDLLList.stream()
-                                        .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCmmArgs[0]))
+                                        .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
                                         .findFirst().get()
                         );
                         break;
                     case 2:
                         // add-head
                         System.out.println("add-head");
+                        finalCommandArgs = StringUtil.extractArguments(2, input);
+                        stationDLLList.stream()
+                                .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
+                                .findFirst().get().addFirst(new Station(finalCommandArgs[1]));
                         break;
                     case 3:
                         // remove

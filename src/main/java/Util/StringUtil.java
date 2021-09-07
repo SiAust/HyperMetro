@@ -40,7 +40,7 @@ public class StringUtil {
                 break;
             case 2:
                 // add-head
-                result = splitArgs(str.substring(8));
+                result = splitArgs(str.substring(9));
                 break;
 
         }

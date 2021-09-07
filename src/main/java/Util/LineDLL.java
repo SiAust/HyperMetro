@@ -1,6 +1,5 @@
 package Util;
 
-import Model.Line;
 import Model.Station;
 
 import java.util.List;
@@ -28,6 +27,22 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
 
     public String getLineName() {
         return lineName;
+    }
+
+    /**
+     * Adds the element to the start of the line, after the depot
+     * */
+    @Override
+    public void addFirst(E elem) {
+        Node<E> temp = new Node<>(elem, super.getHead().next, super.getHead());
+        if (super.getSize() == 0) {
+            super.setHead(temp);
+            super.setTail(temp);
+        } else {
+            super.getHead().next.prev = temp;
+            super.getHead().next = temp;
+        }
+        super.setSize(super.getSize() + 1);
     }
 
     /**
