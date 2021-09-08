@@ -82,6 +82,12 @@ public class Main {
                     case 3:
                         // remove
                         System.out.println("remove");
+                        finalCommandArgs = StringUtil.extractArguments(3, input);
+
+                        LineDLL<Station> line = stationDLLList.stream()
+                                .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
+                                .findFirst().get();
+                        line.remove(finalCommandArgs[1]);
                         break;
                     case -1:
                         // exit

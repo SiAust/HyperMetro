@@ -1,5 +1,6 @@
 package Util;
 
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> {
@@ -135,9 +136,9 @@ public class DoublyLinkedList<E> {
 
 
     static class Node<E> {
-         final E value;
-         Node<E> prev;
-         Node<E> next;
+        final E value;
+        Node<E> prev;
+        Node<E> next;
 
         Node(E value, Node<E> next, Node<E> prev) {
             this.value = value;

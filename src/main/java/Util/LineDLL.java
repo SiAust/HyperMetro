@@ -2,7 +2,11 @@ package Util;
 
 import Model.Station;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
 
@@ -27,6 +31,10 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
 
     public String getLineName() {
         return lineName;
+    }
+
+    public List<E> getStations() {
+        return stations;
     }
 
     /**
@@ -61,6 +69,23 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
         super.setSize(super.getSize() + 1);
     }
 
+    /**
+     * Removes a station by name from the LineDLL
+     * */
+    public void remove(String stationName) {
+       Node<E> temp = super.getHead();
+       while (temp.next != null) {
+           if (temp.value.getName().equals(stationName)) {
+               super.remove(temp);
+               return;
+           }
+           temp = temp.next;
+       }
+//        E stationToRemove = stations.stream()
+//                .filter(station -> station.equals(elem))
+//                .findFirst().get();
+//        super.remove(stationToRemove);
+    }
 
     @Override
     public String toString() {
