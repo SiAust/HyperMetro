@@ -1,5 +1,6 @@
 package Util;
 
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> {
@@ -16,12 +17,24 @@ public class DoublyLinkedList<E> {
         return head;
     }
 
+    void setHead(Node<E> head) {
+        this.head = head;
+    }
+
     public Node<E> getTail() {
         return tail;
     }
 
+    void setTail(Node<E> tail) {
+        this.tail = tail;
+    }
+
     public int getSize() {
         return size;
+    }
+
+    void setSize(int size) {
+        this.size = size;
     }
 
     public boolean isEmpty() {
@@ -99,33 +112,33 @@ public class DoublyLinkedList<E> {
         size--;
     }
 
-    @Override
-    public String toString() {
-        Node<E> temp = head;
-        StringBuilder result = new StringBuilder();
-
-//        result.append("depot - ");
-        do {
-            for (int i = 0; i < 3;i++) {
-                result.append(temp.value);
-                if (i == 2) {
-                    result.append("\n");
-                } else {
-                    result.append(" - ");
-                }
-                temp = temp.next;
-            }
-            temp = temp == null ? null : temp.prev.prev;
-        }  while (temp != null);
-//        result.append("depot");
-        return result.toString();
-    }
+//    @Override
+//    public String toString() {
+//        Node<E> temp = head;
+//        StringBuilder result = new StringBuilder();
+//
+////        result.append("depot - ");
+//        do {
+//            for (int i = 0; i < 3;i++) {
+//                result.append(temp.value);
+//                if (i == 2) {
+//                    result.append("\n");
+//                } else {
+//                    result.append(" - ");
+//                }
+//                temp = temp.next;
+//            }
+//            temp = temp == null ? null : temp.prev.prev;
+//        }  while (temp != null);
+////        result.append("depot");
+//        return result.toString();
+//    }
 
 
     static class Node<E> {
-        private final E value;
-        private Node<E> prev;
-        private Node<E> next;
+        final E value;
+        Node<E> prev;
+        Node<E> next;
 
         Node(E value, Node<E> next, Node<E> prev) {
             this.value = value;
