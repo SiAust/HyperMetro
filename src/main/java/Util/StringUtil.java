@@ -37,45 +37,49 @@ public class StringUtil {
         String[] result = null;
         switch (command) {
             case 0:
+            case 3:
+                // append, remove
+                result = splitArgs(str.substring(7));
+                if (result.length != 2) {
+                    throw new IllegalNumberOfArgumentsException(2, result.length, result);
+                }
+                break;
             case 1:
                 // output
                 result = splitArgs(str.substring(7));
                 if (result.length > 1) {
-                    throw new IllegalNumberOfArgumentsException(1, result.length);
+                    throw new IllegalNumberOfArgumentsException(1, result.length, result);
                 }
                 break;
             case 2:
                 // add-head
                 result = splitArgs(str.substring(9));
                 if (result.length != 2) {
-                    throw new IllegalNumberOfArgumentsException(2, result.length);
+                    throw new IllegalNumberOfArgumentsException(2, result.length, result);
                 }
                 break;
-            case 3:
-                // append, remove
-                result = splitArgs(str.substring(7));
-                if (result.length != 2) {
-                    throw new IllegalNumberOfArgumentsException(2, result.length);
-                }
-                break;
+
         }
         assert result != null;
         System.arraycopy(result, 0, finalCmdArgs, 0, Objects.requireNonNull(result).length);
     }
 
     private static String[] splitArgs(String str) {
-        /* Split into two strings. First string is the line, second
-         * is the station */
-        String[] strings = str.strip().split(" ", 2);
+        /* Holds the resulting arguments */
+        List<String> result = new ArrayList<>();
 
-        /* Remove the quotes
-         * If length < 1, only one argument, i.e "/output Hammersmith-and-city" */
-        if (strings.length > 1 && strings[1].startsWith("\"") && strings[1].endsWith("\"")) {
-            strings[1] = strings[1].substring(1, strings[1].length() - 1);
+        /* Matches a word whether it is surrounded by quotes or not */
+        String regex = "(\\w+)|(\"[\\s\\w]+\")";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+
+        while (matcher.find()) {
+            result.add(matcher.group().replaceAll("\"", ""));
         }
 
-//        System.out.println(Arrays.toString(strings));
+//        System.out.println(result);
 
-        return strings;
+        return result.toArray(String[]::new);
     }
 }
