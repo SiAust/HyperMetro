@@ -5,13 +5,13 @@ import Util.DoublyLinkedList;
 import Util.JSONUtil;
 import Util.LineDLL;
 import Util.StringUtil;
+import Error.IllegalNumberOfArgumentsException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+
 
 public class Main {
 
@@ -51,44 +51,63 @@ public class Main {
             do {
                 input = scanner.nextLine();
                 state = StringUtil.parseInputCommand(input);
-                String[] finalCommandArgs;
+                final String[] finalCommandArgs = new String[2];
                 switch (state) {
                     case 0:
                         // append
                         System.out.println("append");
-                        finalCommandArgs = StringUtil.extractArguments(0, input);
-                        stationDLLList.stream()
-                                .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
-                                .findFirst().get().addLast(new Station(finalCommandArgs[1]));
-                        break;
+                        try {
+                            StringUtil.extractArguments(0, input, finalCommandArgs);
+                            stationDLLList.stream()
+                                    .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
+                                    .findFirst().get().addLast(new Station(finalCommandArgs[1]));
+                            break;
+                        } catch (IllegalNumberOfArgumentsException e) {
+                            System.out.println(e.getMessage());
+                            break;
+                        }
                     case 1:
                         // output
                         System.out.println("output");
-                        finalCommandArgs = StringUtil.extractArguments(1, input);
-                        System.out.println(
-                                stationDLLList.stream()
-                                        .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                        .findFirst().get()
-                        );
-                        break;
+                        try {
+                            StringUtil.extractArguments(1, input, finalCommandArgs);
+                            System.out.println(
+                                    stationDLLList.stream()
+                                            .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
+                                            .findFirst().get()
+                            );
+                            break;
+                        } catch (IllegalNumberOfArgumentsException e) {
+                            System.out.println(e.getMessage());
+                            break;
+                        }
                     case 2:
                         // add-head
                         System.out.println("add-head");
-                        finalCommandArgs = StringUtil.extractArguments(2, input);
-                        stationDLLList.stream()
-                                .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                .findFirst().get().addFirst(new Station(finalCommandArgs[1]));
-                        break;
+                        try {
+                            StringUtil.extractArguments(2, input, finalCommandArgs);
+                            stationDLLList.stream()
+                                    .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
+                                    .findFirst().get().addFirst(new Station(finalCommandArgs[1]));
+                            break;
+                        } catch (IllegalNumberOfArgumentsException e) {
+                            System.out.println(e.getMessage());
+                            break;
+                        }
                     case 3:
                         // remove
                         System.out.println("remove");
-                        finalCommandArgs = StringUtil.extractArguments(3, input);
-
-                        LineDLL<Station> line = stationDLLList.stream()
-                                .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                .findFirst().get();
-                        line.remove(finalCommandArgs[1]);
-                        break;
+                        try {
+                            StringUtil.extractArguments(3, input, finalCommandArgs);
+                            LineDLL<Station> line = stationDLLList.stream()
+                                    .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
+                                    .findFirst().get();
+                            line.remove(finalCommandArgs[1]);
+                            break;
+                        } catch (IllegalNumberOfArgumentsException e) {
+                            System.out.println(e.getMessage());
+                            break;
+                        }
                     case -1:
                         // exit
                         System.out.println("exit");
