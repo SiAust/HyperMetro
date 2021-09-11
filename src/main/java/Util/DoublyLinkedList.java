@@ -1,6 +1,5 @@
 package Util;
 
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> {

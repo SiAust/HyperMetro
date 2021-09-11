@@ -1,6 +1,7 @@
 import Model.Line;
 import Model.Metro;
 import Model.Station;
+import Model.Transfer;
 import Util.DoublyLinkedList;
 import Util.JSONUtil;
 import Util.LineDLL;
@@ -27,7 +28,9 @@ public class Main {
             /* Holds the lines as DLL objects */
             List<LineDLL<Station>> stationDLLList = new ArrayList<>();
 
-            Station depot = new Station("depot");
+            Transfer[] emptyTransferArray = new Transfer[0];
+
+            Station depot = new Station("depot", emptyTransferArray);
             for (Line line : metro.getLines()) {
                 List<Station> stations = line.getStations();
                 /* Depot must begin and end the line */
@@ -60,7 +63,7 @@ public class Main {
                             StringUtil.extractArguments(0, input, finalCommandArgs);
                             stationDLLList.stream()
                                     .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
-                                    .findFirst().get().addLast(new Station(finalCommandArgs[1]));
+                                    .findFirst().get().addLast(new Station(finalCommandArgs[1], emptyTransferArray));
                             break;
                         } catch (IllegalNumberOfArgumentsException e) {
                             System.out.println(e.getMessage());
@@ -88,7 +91,7 @@ public class Main {
                             StringUtil.extractArguments(2, input, finalCommandArgs);
                             stationDLLList.stream()
                                     .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                    .findFirst().get().addFirst(new Station(finalCommandArgs[1]));
+                                    .findFirst().get().addFirst(new Station(finalCommandArgs[1], emptyTransferArray));
                             break;
                         } catch (IllegalNumberOfArgumentsException e) {
                             System.out.println(e.getMessage());

@@ -22,9 +22,7 @@ public class Line {
 
     @Override
     public String toString() {
-        return "Line{" +
-                "name='" + name + '\'' +
-                ", stations=" + stations +
-                '}';
+        return "\nLine: " + name + '\n' +
+                "\tStations:" + stations;
     }
 }

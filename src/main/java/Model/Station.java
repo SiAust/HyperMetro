@@ -1,11 +1,15 @@
 package Model;
 
+import java.util.Arrays;
+
 public class Station {
 
     private final String name;
+    private final Transfer[] transfer;
 
-    public Station(String name) {
+    public Station(String name, Transfer[] transfer) {
         this.name = name;
+        this.transfer = transfer;
     }
 
     public String getName() {
@@ -14,6 +18,7 @@ public class Station {
 
     @Override
     public String toString() {
-        return name;
+        return "\n\t\tStation: " + name
+                + " Transfer: " + Arrays.toString(transfer);
     }
 }
