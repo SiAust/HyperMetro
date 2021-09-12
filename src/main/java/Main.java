@@ -12,6 +12,7 @@ import Util.StringUtil;
 import Error.IllegalNumberOfArgumentsException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,13 +27,16 @@ public class Main {
 
             Metro metro = JSONUtil.importMetroFromJSON("src/test/" + args[0]);
 
+            /* Prints the metro state to the console */
+            if (Arrays.stream(args).filter(arg -> arg.contains("--debug")).count() == 1) {
+                System.out.println(metro.toDebugString());
+            }
+
 //            JSONUtil.prettyPrintClasses("src/test/" + args[0]);
             /* Holds the lines as DLL objects */
             List<LineDLL<Station>> stationDLLList = new ArrayList<>();
 
-            Transfer[] emptyTransferArray = new Transfer[0];
-
-            Station depot = new Station("depot", emptyTransferArray);
+            Station depot = new Station("depot");
             for (Line line : metro.getLines()) {
                 List<Station> stations = line.getStations();
                 /* Depot must begin and end the line */
@@ -41,7 +45,7 @@ public class Main {
 
                 LineDLL<Station> stationDoublyLinkedList = new LineDLL<>(stations, line.getName());
                 stationDLLList.add(stationDoublyLinkedList);
-                System.out.println(stationDoublyLinkedList.getLineName());
+//                System.out.println(stationDoublyLinkedList.getLineName());
             }
 
             for (DoublyLinkedList<Station> dll : stationDLLList) {
@@ -68,7 +72,7 @@ public class Main {
                                     finalCommandArgs);
                             stationDLLList.stream()
                                     .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
-                                    .findFirst().get().addLast(new Station(finalCommandArgs[1], emptyTransferArray));
+                                    .findFirst().get().addLast(new Station(finalCommandArgs[1]));
                             break;
                         } catch (IllegalNumberOfArgumentsException e) {
                             System.out.println(e.getMessage());
@@ -102,7 +106,7 @@ public class Main {
                                     finalCommandArgs);
                             stationDLLList.stream()
                                     .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                    .findFirst().get().addFirst(new Station(finalCommandArgs[1], emptyTransferArray));
+                                    .findFirst().get().addFirst(new Station(finalCommandArgs[1]));
                             break;
                         } catch (IllegalNumberOfArgumentsException e) {
                             System.out.println(e.getMessage());
@@ -120,6 +124,19 @@ public class Main {
                                     .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
                                     .findFirst().get();
                             line.remove(finalCommandArgs[1]);
+                            break;
+                        } catch (IllegalNumberOfArgumentsException e) {
+                            System.out.println(e.getMessage());
+                            break;
+                        }
+                    case 4:
+                        // connect
+                        try {
+                            StringUtil.extractArguments(
+                                    UserCommand.CONNECT,
+                                    input,
+                                    finalCommandArgs);
+
                             break;
                         } catch (IllegalNumberOfArgumentsException e) {
                             System.out.println(e.getMessage());

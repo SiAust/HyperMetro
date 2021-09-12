@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Line {
 
@@ -22,7 +23,12 @@ public class Line {
 
     @Override
     public String toString() {
+        return name;
+    }
+
+    public String toDebugString() {
         return "\nLine: " + name + '\n' +
-                "\tStations:" + stations;
+                "\tStations:" + stations.stream().map(Station::toDebugString)
+                .collect(Collectors.joining());
     }
 }

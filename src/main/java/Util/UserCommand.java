@@ -5,4 +5,6 @@ public class UserCommand {
     public static int OUTPUT = 1;
     public static int ADD_HEAD = 2;
     public static int REMOVE = 3;
+    public static int CONNECT = 4;
+
 }

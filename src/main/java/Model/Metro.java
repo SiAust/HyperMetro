@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Metro {
 
@@ -21,5 +22,11 @@ public class Metro {
     @Override
     public String toString() {
         return lines.toString();
+    }
+
+    public String toDebugString() {
+        return lines.stream()
+                .map(Line::toDebugString)
+                .collect(Collectors.joining()) + "\n";
     }
 }

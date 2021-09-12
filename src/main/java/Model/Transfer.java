@@ -20,6 +20,10 @@ public class Transfer {
 
     @Override
     public String toString() {
+        return station + " (" + line + ")";
+    }
+
+    public String toDebugString() {
         return "line: " + line + " station: " + station;
     }
 }

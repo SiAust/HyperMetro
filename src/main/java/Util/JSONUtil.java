@@ -54,7 +54,7 @@ public class JSONUtil {
             metro = new Metro(linesList);
             reader.close();
 
-            System.out.println(metro);
+//            System.out.println(metro.toDebugString());
 
 
         } catch (IOException e) {

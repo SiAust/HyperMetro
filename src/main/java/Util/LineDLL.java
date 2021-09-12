@@ -93,16 +93,8 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
         StringBuilder result = new StringBuilder();
 
         do {
-            for (int i = 0; i < 3;i++) {
-                result.append(temp.value);
-                if (i == 2) {
-                    result.append("\n");
-                } else {
-                    result.append(" - ");
-                }
-                temp = temp.next;
-            }
-            temp = temp == null ? null : temp.prev.prev;
+            result.append(temp.value).append("\n");
+            temp = temp.next;
         }  while (temp != null);
 
         return result.toString();
