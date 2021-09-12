@@ -2,14 +2,16 @@ import Model.Line;
 import Model.Metro;
 import Model.Station;
 import Model.Transfer;
+import Util.UserCommand;
+
 import Util.DoublyLinkedList;
 import Util.JSONUtil;
 import Util.LineDLL;
 import Util.StringUtil;
+
 import Error.IllegalNumberOfArgumentsException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -60,7 +62,10 @@ public class Main {
                         // append
                         System.out.println("append");
                         try {
-                            StringUtil.extractArguments(0, input, finalCommandArgs);
+                            StringUtil.extractArguments(
+                                    UserCommand.APPEND,
+                                    input,
+                                    finalCommandArgs);
                             stationDLLList.stream()
                                     .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
                                     .findFirst().get().addLast(new Station(finalCommandArgs[1], emptyTransferArray));
@@ -73,7 +78,10 @@ public class Main {
                         // output
                         System.out.println("output");
                         try {
-                            StringUtil.extractArguments(1, input, finalCommandArgs);
+                            StringUtil.extractArguments(
+                                    UserCommand.OUTPUT,
+                                    input,
+                                    finalCommandArgs);
                             System.out.println(
                                     stationDLLList.stream()
                                             .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
@@ -88,7 +96,10 @@ public class Main {
                         // add-head
                         System.out.println("add-head");
                         try {
-                            StringUtil.extractArguments(2, input, finalCommandArgs);
+                            StringUtil.extractArguments(
+                                    UserCommand.ADD_HEAD,
+                                    input,
+                                    finalCommandArgs);
                             stationDLLList.stream()
                                     .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
                                     .findFirst().get().addFirst(new Station(finalCommandArgs[1], emptyTransferArray));
@@ -101,7 +112,10 @@ public class Main {
                         // remove
                         System.out.println("remove");
                         try {
-                            StringUtil.extractArguments(3, input, finalCommandArgs);
+                            StringUtil.extractArguments(
+                                    UserCommand.REMOVE,
+                                    input,
+                                    finalCommandArgs);
                             LineDLL<Station> line = stationDLLList.stream()
                                     .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
                                     .findFirst().get();
