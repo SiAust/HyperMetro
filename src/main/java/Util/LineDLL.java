@@ -72,7 +72,7 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
     /**
      * Removes a station by name from the LineDLL
      * */
-    public void remove(String stationName) {
+    public void remove(String stationName) { // TODO station doesn't exist?
        Node<E> temp = super.getHead();
        while (temp.next != null) {
            if (temp.value.getName().equals(stationName)) {
@@ -81,10 +81,6 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
            }
            temp = temp.next;
        }
-//        E stationToRemove = stations.stream()
-//                .filter(station -> station.equals(elem))
-//                .findFirst().get();
-//        super.remove(stationToRemove);
     }
 
     @Override

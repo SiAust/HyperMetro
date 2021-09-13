@@ -9,10 +9,10 @@ public class Station {
 
     /** Creates a Station with Transfer lines. Used during
      * deserialization of .json file */
-    public Station(String name, Transfer[] transfer) {
-        this.name = name;
-        this.transfer = transfer;
-    }
+//    public Station(String name, Transfer[] transfer) {
+//        this.name = name;
+//        this.transfer = transfer;
+//    }
 
     /** Creates a Station without any transfer lines */
     public Station(String name) {

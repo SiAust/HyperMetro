@@ -1,7 +1,6 @@
 import Model.Line;
 import Model.Metro;
 import Model.Station;
-import Model.Transfer;
 import Util.UserCommand;
 
 import Util.DoublyLinkedList;
@@ -10,6 +9,7 @@ import Util.LineDLL;
 import Util.StringUtil;
 
 import Error.IllegalNumberOfArgumentsException;
+import Error.LineNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,93 +60,99 @@ public class Main {
             do {
                 input = scanner.nextLine();
                 state = StringUtil.parseInputCommand(input);
-                final String[] finalCommandArgs = new String[2];
-                switch (state) {
-                    case 0:
-                        // append
-                        System.out.println("append");
-                        try {
+                final String[] finalCommandArgs = new String[4];
+
+                try {
+
+                    LineDLL<Station> line;
+
+                    switch (state) {
+                        case 0:
+                            // append
+                            System.out.println("append");
                             StringUtil.extractArguments(
                                     UserCommand.APPEND,
                                     input,
                                     finalCommandArgs);
-                            stationDLLList.stream()
-                                    .filter(stationDoublyLinkedList -> stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
-                                    .findFirst().get().addLast(new Station(finalCommandArgs[1]));
+                            line = stationDLLList.stream()
+                                    .filter(stationDoublyLinkedList ->
+                                            stationDoublyLinkedList.getLineName().equals(finalCommandArgs[0]))
+                                    .findFirst().orElse(null);
+                            if (line != null) {
+                                line.addLast(new Station(finalCommandArgs[1]));
+                            } else {
+                                throw new LineNotFoundException(finalCommandArgs[0]);
+                            }
                             break;
-                        } catch (IllegalNumberOfArgumentsException e) {
-                            System.out.println(e.getMessage());
-                            break;
-                        }
-                    case 1:
-                        // output
-                        System.out.println("output");
-                        try {
+                        case 1:
+                            // output
+                            System.out.println("output");
                             StringUtil.extractArguments(
                                     UserCommand.OUTPUT,
                                     input,
                                     finalCommandArgs);
-                            System.out.println(
-                                    stationDLLList.stream()
-                                            .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                            .findFirst().get()
-                            );
+
+                            line = stationDLLList.stream()
+                                    .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
+                                    .findFirst().orElse(null);
+                            if (line != null) {
+                                System.out.println(line);
+                            } else {
+                                throw new LineNotFoundException(finalCommandArgs[0]);
+                            }
                             break;
-                        } catch (IllegalNumberOfArgumentsException e) {
-                            System.out.println(e.getMessage());
-                            break;
-                        }
-                    case 2:
-                        // add-head
-                        System.out.println("add-head");
-                        try {
+                        case 2:
+                            // add-head
+                            System.out.println("add-head");
                             StringUtil.extractArguments(
                                     UserCommand.ADD_HEAD,
                                     input,
                                     finalCommandArgs);
-                            stationDLLList.stream()
+                            line = stationDLLList.stream()
                                     .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                    .findFirst().get().addFirst(new Station(finalCommandArgs[1]));
+                                    .findFirst().orElse(null);
+                            if (line != null) {
+                                line.addFirst(new Station(finalCommandArgs[1]));
+                            } else {
+                                throw new LineNotFoundException(finalCommandArgs[0]);
+                            }
                             break;
-                        } catch (IllegalNumberOfArgumentsException e) {
-                            System.out.println(e.getMessage());
-                            break;
-                        }
-                    case 3:
-                        // remove
-                        System.out.println("remove");
-                        try {
+                        case 3:
+                            // remove
+                            System.out.println("remove");
                             StringUtil.extractArguments(
                                     UserCommand.REMOVE,
                                     input,
                                     finalCommandArgs);
-                            LineDLL<Station> line = stationDLLList.stream()
+                            line = stationDLLList.stream()
                                     .filter(stationLineDLL -> stationLineDLL.getLineName().equals(finalCommandArgs[0]))
-                                    .findFirst().get();
-                            line.remove(finalCommandArgs[1]);
+                                    .findFirst().orElse(null);
+                            if (line != null) {
+                                line.remove(finalCommandArgs[1]);
+
+                            } else {
+                                throw new LineNotFoundException(finalCommandArgs[0]);
+                            }
                             break;
-                        } catch (IllegalNumberOfArgumentsException e) {
-                            System.out.println(e.getMessage());
-                            break;
-                        }
-                    case 4:
-                        // connect
-                        try {
+                        case 4:
+                            // connect
                             StringUtil.extractArguments(
                                     UserCommand.CONNECT,
                                     input,
                                     finalCommandArgs);
+                            // TODO implement connection
+                            break;
+                        case -1:
+                            // exit
+                            System.out.println("exit");
+                            break;
+                    }
 
-                            break;
-                        } catch (IllegalNumberOfArgumentsException e) {
-                            System.out.println(e.getMessage());
-                            break;
-                        }
-                    case -1:
-                        // exit
-                        System.out.println("exit");
-                        break;
+                } catch (IllegalNumberOfArgumentsException | LineNotFoundException e) {
+                    System.out.println(e.getMessage());
+//                    break;
                 }
+
             } while (state != -1);
 
         } catch (Exception e) {

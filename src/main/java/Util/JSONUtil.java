@@ -11,9 +11,8 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class JSONUtil {
 
@@ -39,7 +38,9 @@ public class JSONUtil {
             for (String line : lines) {
 //                System.out.println(jsonObject.getAsJsonObject(line));
                 JsonObject lineObj = jsonObject.getAsJsonObject(line);
-                stationsSet = lineObj.keySet();
+                /* TreeSet sorts the KeySet into natural order */
+                stationsSet = new TreeSet<>(lineObj.keySet());
+//                System.out.println(stationsSet);
                 for (String station : stationsSet) {
 
                     Station tempStation = gson.fromJson(lineObj.get(station).getAsJsonObject(), Station.class);

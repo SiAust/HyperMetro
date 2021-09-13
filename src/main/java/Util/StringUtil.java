@@ -8,17 +8,16 @@ import Error.IllegalNumberOfArgumentsException;
 
 public class StringUtil {
 
+    static final String[] COMMANDS = {"^/append.*", "^/output.*", "^/add-head.*", "^/remove.*", "^/connect.*"};
 
     public static int parseInputCommand(String input) {
         int state = -1;
         Pattern pattern;
         Matcher matcher;
 
-        String[] commands = {"^/append.*", "^/output.*", "^/add-head.*", "^/remove.*"};
-
         if (input.startsWith("/")) {
-            for (int i = 0; i < commands.length; i++) {
-                pattern = Pattern.compile(commands[i]);
+            for (int i = 0; i < COMMANDS.length; i++) {
+                pattern = Pattern.compile(COMMANDS[i]);
                 matcher = pattern.matcher(input);
                 if (matcher.matches()) {
                     state = i;
@@ -58,6 +57,13 @@ public class StringUtil {
                     throw new IllegalNumberOfArgumentsException(2, result.length, result);
                 }
                 break;
+            case 4:
+                // connect
+                result = splitArgs(str.substring(8));
+                if (result.length != 4) {
+                    throw new IllegalNumberOfArgumentsException(4, result.length, result);
+                }
+                break;
 
         }
         assert result != null;
@@ -69,7 +75,7 @@ public class StringUtil {
         List<String> result = new ArrayList<>();
 
         /* Matches a word whether it is surrounded by quotes or not */
-        String regex = "(\\w+)|(\"[\\s\\w]+\")";
+        String regex = "([\\w-]+)|(\"[\\s\\w]+\")";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
@@ -78,7 +84,7 @@ public class StringUtil {
             result.add(matcher.group().replaceAll("\"", ""));
         }
 
-//        System.out.println(result);
+        System.out.println(result);
 
         return result.toArray(String[]::new);
     }
