@@ -24,6 +24,6 @@ public class Transfer {
     }
 
     public String toDebugString() {
-        return "line: " + line + " station: " + station;
+        return "\n\tline: " + line + " station: " + station;
     }
 }

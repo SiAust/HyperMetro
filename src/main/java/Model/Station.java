@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Station {
 
     private final String name;
-    private final Transfer[] transfer;
+    private Transfer[] transfer;
 
     /** Creates a Station with Transfer lines. Used during
      * deserialization of .json file */
@@ -20,9 +20,16 @@ public class Station {
         this.transfer = new Transfer[0];
     }
 
-
     public String getName() {
         return name;
+    }
+
+    public void addTransfer(String line, String station) {
+        Transfer[] temp = new Transfer[transfer.length + 1];
+        temp = Arrays.copyOf(transfer, temp.length);
+        temp[temp.length -1] = new Transfer(line, station);
+        transfer = temp;
+//        System.out.println(Arrays.toString(transfer));
     }
 
     @Override

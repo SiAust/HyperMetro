@@ -1,12 +1,9 @@
 package Util;
 
 import Model.Station;
+import Error.StationNotFoundException;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
 
@@ -72,7 +69,7 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
     /**
      * Removes a station by name from the LineDLL
      * */
-    public void remove(String stationName) { // TODO station doesn't exist?
+    public void remove(String stationName) {
        Node<E> temp = super.getHead();
        while (temp.next != null) {
            if (temp.value.getName().equals(stationName)) {
@@ -81,6 +78,18 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
            }
            temp = temp.next;
        }
+//        throw new StationNotFoundException(stationName); // TODO station doesn't exist?
+    }
+
+    public E findStation(String stationName) throws StationNotFoundException {
+        Node<E> temp = super.getHead();
+        while (temp.next != null) {
+            if (temp.value.getName().equals(stationName)) {
+                return temp.value;
+            }
+            temp = temp.next;
+        }
+        throw new StationNotFoundException(stationName, this.getLineName());
     }
 
     @Override

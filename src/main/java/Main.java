@@ -10,6 +10,7 @@ import Util.StringUtil;
 
 import Error.IllegalNumberOfArgumentsException;
 import Error.LineNotFoundException;
+import Error.StationNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,7 +141,20 @@ public class Main {
                                     UserCommand.CONNECT,
                                     input,
                                     finalCommandArgs);
-                            // TODO implement connection
+                            // Update stations with transfer
+                            for (int i = 0, j = finalCommandArgs.length -1; i < 3; i += 2, j -= 2) {
+                                int finalI = i;
+                                line = stationDLLList.stream()
+                                        .filter(stationLineDLL -> stationLineDLL.getLineName()
+                                                .equals(finalCommandArgs[finalI]))
+                                        .findFirst().orElse(null);
+                                if (line != null) {
+                                    Station stationToUpdate = line.findStation(finalCommandArgs[finalI + 1]);
+                                    stationToUpdate.addTransfer(finalCommandArgs[j - 1], finalCommandArgs[j]);
+                                } else {
+                                    throw new LineNotFoundException(finalCommandArgs[finalI]);
+                                }
+                            }
                             break;
                         case -1:
                             // exit
@@ -148,9 +162,9 @@ public class Main {
                             break;
                     }
 
-                } catch (IllegalNumberOfArgumentsException | LineNotFoundException e) {
+                } catch (IllegalNumberOfArgumentsException | LineNotFoundException
+                        | StationNotFoundException e) {
                     System.out.println(e.getMessage());
-//                    break;
                 }
 
             } while (state != -1);
