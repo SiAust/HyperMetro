@@ -32,24 +32,27 @@ public class JSONUtil {
             Set<String> lines = jsonObject.keySet();
             List<Line> linesList = new ArrayList<>();
 
-            Set<String> stationsSet;
+            // Create a set which is ordered by int value
+            Set<String> stationsSet = new TreeSet<>(Comparator.comparingInt(Integer::parseInt));
             List<Station> stationsList = new ArrayList<>();
 
             for (String line : lines) {
 //                System.out.println(jsonObject.getAsJsonObject(line));
                 JsonObject lineObj = jsonObject.getAsJsonObject(line);
-                /* TreeSet sorts the KeySet into natural order */
-                stationsSet = new TreeSet<>(lineObj.keySet());
+
+                stationsSet.addAll(lineObj.keySet());
 //                System.out.println(stationsSet);
+                // Iterate over the names of the stations and create a new Station
                 for (String station : stationsSet) {
-
                     Station tempStation = gson.fromJson(lineObj.get(station).getAsJsonObject(), Station.class);
-
                     stationsList.add(tempStation);
                 }
+
                 Line tempLine = new Line(line, stationsList);
                 linesList.add(tempLine);
                 stationsList = new ArrayList<>();
+                // Clear the set before next iteration
+                stationsSet.clear();
             }
 
             metro = new Metro(linesList);

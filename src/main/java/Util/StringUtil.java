@@ -75,7 +75,7 @@ public class StringUtil {
         List<String> result = new ArrayList<>();
 
         /* Matches a word whether it is surrounded by quotes or not */
-        String regex = "([\\w-]+)|(\"[\\s\\w]+\")";
+        String regex = "([\\w-]+)|(\"[\\s\\w.]+\")";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
