@@ -1,12 +1,9 @@
 package Util;
 
 import Model.Station;
+import Error.StationNotFoundException;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
 
@@ -81,10 +78,18 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
            }
            temp = temp.next;
        }
-//        E stationToRemove = stations.stream()
-//                .filter(station -> station.equals(elem))
-//                .findFirst().get();
-//        super.remove(stationToRemove);
+//        throw new StationNotFoundException(stationName); // TODO station doesn't exist?
+    }
+
+    public E findStation(String stationName) throws StationNotFoundException {
+        Node<E> temp = super.getHead();
+        while (temp.next != null) {
+            if (temp.value.getName().equals(stationName)) {
+                return temp.value;
+            }
+            temp = temp.next;
+        }
+        throw new StationNotFoundException(stationName, this.getLineName());
     }
 
     @Override
@@ -93,16 +98,8 @@ public class LineDLL<E extends Station> extends DoublyLinkedList<E> {
         StringBuilder result = new StringBuilder();
 
         do {
-            for (int i = 0; i < 3;i++) {
-                result.append(temp.value);
-                if (i == 2) {
-                    result.append("\n");
-                } else {
-                    result.append(" - ");
-                }
-                temp = temp.next;
-            }
-            temp = temp == null ? null : temp.prev.prev;
+            result.append(temp.value).append("\n");
+            temp = temp.next;
         }  while (temp != null);
 
         return result.toString();
